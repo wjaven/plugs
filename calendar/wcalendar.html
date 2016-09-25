@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>日历</title>
+		<style>
+			.calendarBox{display:none;position: absolute;top:10px;left:10px;width:218px;color:#333;background-color:#fff;font:12px Arial;-moz-user-select:none;}
+			.calendarBox:after{content:'\200B';display: block;height:0;clear: both;}
+			/*选择条*/
+			.cbtn{float: left;width:216px;border:#ddd 1px solid;text-align: center;}
+			.cbtn{height:28px;line-height: 28px;}
+			.cbtn>div{float:left;position:relative;width:108px;}
+			.cbtn>div>div{border-left:#ddd 1px solid;cursor: pointer;}
+			.cbtn>div:first-child>div:first-child{border-left:none;}
+			/*箭头*/
+			.c-icon{float:left;width:30px;background-color: #eee;}
+			.c-icon:hover{background-color: #fff;}
+			.cyear{float: left;width: 46px;}
+			.cmonth{float:left;width:45px;}
+			.c-up,.c-right,.c-down,.c-left{display:inline-block;position:relative;width: 0;height: 0;border:transparent 5px solid;}
+			.c-up{top:-2px;border-bottom-color:#333;}
+			.c-right{left:4px;border-left-color:#333;}
+			.c-down{top:2px;border-top-color:#333;}
+			.c-left{left:-4px;border-right-color:#333;}
+			/*更多年月弹窗*/
+			.cmore{display:none;position:absolute;top:28px;width:107px;line-height: 20px;background-color:#fff;border:#ddd 1px solid;}
+			.cbtn>div:first-child>.cmore{left: -1px;width:108px;}
+			.cbtn>div:first-child>.cmore ul{border-top:#ddd 1px solid;border-bottom:#ddd 1px solid;}
+			.cm-icon{float:left;width: 100%;line-height: 19px;background-color: #eee;}
+			.cm-icon:hover{background-color: #fff;}
+			.cmore ul{float:left;margin:0;padding:0;width: 100%;list-style: none;color:#333;}
+			.cmore li{float: left;width: 50%;}
+			/*星期头、主体*/
+			.chead,.cbody,.ctr{float: left;width:218px;text-align: center;line-height: 24px;}
+			.cth,.ctd{float: left;width:30px;border-right:#ddd 1px solid;border-bottom:#ddd 1px solid;}
+			.cth{font-weight: bold;}
+			.cth:first-child,.ctd:first-child{border-left: #ddd 1px solid;}
+			.cmore li:hover,.ctd:hover{background-color:#eee;cursor: pointer;}
+			.ctoday{background-color:#e8e8e8;}
+			.cdisable{color:#999;}
+			.cdisable:hover{background-color: #fff;cursor:default;}
+			.ctoday.cdisable,.ctoday.cdisable:hover{background-color:#e8e8e8;}
+			/*皮肤，cyan*/
+			.cskin-cyan .cbtn,.cskin-cyan .c-icon,.cskin-cyan .cm-icon,.cskin-cyan .ctoday{color:#fff;background-color:#00bcd4;}
+			.cskin-cyan .c-up{border-bottom-color:#fff;}
+			.cskin-cyan .c-right{border-left-color:#fff;}
+			.cskin-cyan .c-down{border-top-color:#fff;}
+			.cskin-cyan .c-left{border-right-color:#fff;}
+			.cskin-cyan .c-icon:hover,.cskin-cyan .cm-icon:hover,.cskin-cyan .cmore li:hover,.cskin-cyan .ctd:hover{color:#fff;background-color:#4DD0E1;}
+			.cskin-cyan .cbtn,.cskin-cyan .cbtn>div>div{border-color:#00bcd4;}
+			.cskin-cyan .ctd.cdisable{color: #999;}
+			.cskin-cyan .cdisable:hover{background-color: #fff;}
+			.cskin-cyan .ctoday.cdisable,.cskin-cyan .ctoday.cdisable:hover{background-color:#00bcd4;}
+			/*皮肤，teal*/
+			.cskin-teal .cbtn,.cskin-teal .c-icon,.cskin-teal .cm-icon,.cskin-teal .ctoday{color:#fff;background-color:#009688;}
+			.cskin-teal .c-up{border-bottom-color:#fff;}
+			.cskin-teal .c-right{border-left-color:#fff;}
+			.cskin-teal .c-down{border-top-color:#fff;}
+			.cskin-teal .c-left{border-right-color:#fff;}
+			.cskin-teal .c-icon:hover,.cskin-teal .cm-icon:hover,.cskin-teal .cmore li:hover,.cskin-teal .ctd:hover{color:#fff;background-color:#4DB6AC;}
+			.cskin-teal .cbtn,.cskin-teal .cbtn>div>div{border-color:#009688;}
+			.cskin-teal .ctd.cdisable{color: #999;}
+			.cskin-teal .cdisable:hover{background-color: #fff;}
+			.cskin-teal .ctoday.cdisable,.cskin-teal .ctoday.cdisable:hover{background-color:#009688;}
+		</style>
+		<style>
+			body>div{margin-bottom: 10px;}
+		</style>
+	</head>
+	<body>
+	<div>
+		input[type='text']元素绑定<br/>
+		<input id="demo1" type="text" placeholder="请选择日期">
+	</div>
+	<div>
+		范围限制<br/>
+		<input id="demo2" type="text" placeholder="请选择日期">
+	</div>
+	<div>
+		回调联动：第一个日期作为第二个最小值<br/>
+		<input id="demo3" type="text" placeholder="请选择日期">
+		<input id="demo4" type="text" placeholder="请选择日期">
+	</div>
+	<div>
+		div元素绑定<br/>
+		<div id="demo5" style="border: #ddd 1px solid">div元素绑定</div>
+	</div>
+		<!--<div class="calendarBox">
+			<div class="cbtn">
+				<div>
+					<div class="c-icon"><i class="c-left"></i></div>
+					<div class="cyear">2016</div>
+					<div class="c-icon"><i class="c-right"></i></div>
+					<div class="cmore">
+						<div class="cm-icon"><i class="c-up"></i></div>
+						<ul>
+							<li>2015</li>
+							<li>2015</li>
+							<li>2015</li>
+							<li>2015</li>
+							<li>2015</li>
+							<li>2015</li>
+						</ul>
+						<div class="cm-icon"><i class="c-down"></i></div>
+					</div>				
+				</div>
+				<div>
+					<div class="c-icon">
+						<i class="c-left"></i>
+					</div>
+					<div class="cmonth">9</div>
+					<div class="c-icon">
+						<i class="c-right"></i>
+					</div>
+					<div class="cmore">
+						<div class="cm-icon"><i class="c-up"></i></div>
+						<ul>
+							<li>1</li>
+							<li>2</li>
+							<li>3</li>
+							<li>4</li>
+							<li>5</li>
+							<li>6</li>
+						</ul>
+						<div class="cm-icon"><i class="c-down"></i></div>
+					</div>	
+				</div>
+			</div>
+			<div class="chead">
+				<div class="cth">日</div>
+				<div class="cth">一</div>
+				<div class="cth">二</div>
+				<div class="cth">三</div>
+				<div class="cth">四</div>
+				<div class="cth">五</div>
+				<div class="cth">六</div>
+			</div>
+			<div class="cbody">
+				<div class="ctr">
+					<div class="ctd">1</div>
+					<div class="ctd">1</div>
+					<div class="ctd">1</div>
+					<div class="ctd">1</div>
+					<div class="ctd">1</div>
+					<div class="ctd">1</div>
+					<div class="ctd">1</div>
+				</div>
+				<div class="ctr">
+					<div class="ctd">1</div>
+					<div class="ctd">1</div>
+					<div class="ctd">1</div>
+					<div class="ctd">1</div>
+					<div class="ctd">1</div>
+					<div class="ctd">1</div>
+					<div class="ctd">1</div>
+				</div>
+				<div class="ctr">
+					<div class="ctd">1</div>
+					<div class="ctd">1</div>
+					<div class="ctd">1</div>
+					<div class="ctd">1</div>
+					<div class="ctd">1</div>
+					<div class="ctd">1</div>
+					<div class="ctd">1</div>
+				</div>
+			</div>
+		</div>-->
+		<script src="js/wcalendar.js"></script>
+		<script>
+			wcalendar.cskin('cskin-teal');
+			wcalendar({
+				id:'demo1'
+			});
+			var date=new Date(),
+					y=date.getFullYear(),
+					m=date.getMonth()+1,
+					d=date.getDate(),
+					min=y+'-'+m+'-'+d;
+			var date2=new Date(new Date().valueOf()+3600000*24*4),
+					y2=date2.getFullYear(),
+					m2=date2.getMonth()+1,
+					d2=date2.getDate(),
+					max=y2+'-'+m2+'-'+d2;
+			wcalendar({
+				id:'demo2',
+				min:min,
+				max:max
+			});
+			wcalendar({
+				id:'demo3',
+				callback:function(date){
+					wcalendar({
+						id:'demo4',
+						min:document.getElementById('demo3').value
+					});
+				}
+			});
+			wcalendar({
+				id:'demo5'
+			});
+		</script>
+	</body>
+</html>
