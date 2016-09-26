@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>表单校验</title>
+		<style>
+			html{font-size: 14px;}
+			dl,dd{margin: 0;}
+			button,input,textarea,select{border: none;outline: none;}
+			a{text-decoration: none;}
+			body>div{margin-top: 20px;}
+			.f-red{color: #ff0000;}
+			.form-com dl{float: left;width: 100%;margin-top: 10px;}
+			.form-com dt{float: left;width: 150px;text-align: right;height:28px;line-height: 28px;}
+			.form-com dd{float: left;}
+			.form-com input[type="text"],.form-com textarea,.form-com select{border:#ddd 1px solid;}
+			.form-com input[type="text"],.form-com select{padding:0 10px;height:28px;line-height: 28px;}
+			.form-com textarea{width: 400px;height:66px;line-height: 22px;}
+			.form-com input[type="text"]:focus,.form-com textarea:focus,.form-com select:focus{border-color: #ff0000;}
+			.form-com .inpt{width: 200px;}
+			.form-com .inpt.inpt60{width: 60px;}
+			.form-com .hint{color:#ff0000;display: none;}
+			.form-com .btn{display:inline-block;width: 80px;height:30px;line-height: 30px;text-align: center;color: #fff;background-color: #ff0000;}
+			.form-com .blockdl{display: none;}
+		</style>
+	</head>
+	<body>
+	<div>
+		<h3>单项校验，绑定失去焦点事件的元素：text，area,select</h3>
+		<p>
+			1，通过form元素绑定失去焦点校验；<br/>
+			2，提交时调用提交校验法
+		</p>
+		<form class="form-com" id="gvalidform">
+			<dl>
+				<dt><span class="f-red">*</span>必填：</dt>
+				<dd>
+					<input class="inpt" gvalid="true;'';*;(内容)" type="text" placeholder="内容" />
+				</dd>
+				<dd class="hint"><em>&nbsp;</em><span></span></dd>
+			</dl>
+			<dl>
+				<dt>非必填有格式：</dt>
+				<dd>
+					<input class="inpt" gvalid="false;letter;{6,10};(6-10位字母数字下划线)" type="text" placeholder="6-10位字母数字下划线" />
+				</dd>
+				<dd class="hint"><em>&nbsp;</em><span></span></dd>
+			</dl>
+			<dl>
+				<dt><span class="f-red">*</span>数字：</dt>
+				<dd>
+					<input class="inpt" gvalid="true;number;{4};(4位数字)" type="text" placeholder="4位数字" />
+				</dd>
+				<dd class="hint"><em>&nbsp;</em><span></span></dd>
+			</dl>
+			<dl>
+				<dt><span class="f-red">*</span>11位手机号：</dt>
+				<dd>
+					<input class="inpt" gvalid="true;mobile;'';(手机号)" type="text" placeholder="手机号" />
+				</dd>
+				<dd class="hint"><em>&nbsp;</em><span></span></dd>
+			</dl>
+			<dl>
+				<dt><span class="f-red">*</span>固话：</dt>
+				<dd>
+					<input class="inpt" gvalid="true;phone;'';(固话)" type="text" placeholder="固话" />
+				</dd>
+				<dd class="hint"><em>&nbsp;</em><span></span></dd>
+			</dl>
+			<dl>
+				<dt><span class="f-red">*</span>联系方式：</dt>
+				<dd>
+					<input class="inpt" gvalid="true;contact;'';(手机号或固话)" type="text" placeholder="手机号或固话" />
+				</dd>
+				<dd class="hint"><em>&nbsp;</em><span></span></dd>
+			</dl>
+			<dl>
+				<dt><span class="f-red">*</span>邮箱：</dt>
+				<dd>
+					<input class="inpt" gvalid="true;email;'';(邮箱)" type="text" placeholder="邮箱" />
+				</dd>
+				<dd class="hint"><em>&nbsp;</em><span></span></dd>
+			</dl>
+			<dl>
+				<dt><span class="f-red">*</span>身份证号：</dt>
+				<dd>
+					<input class="inpt" gvalid="true;IDcard;'';(15,18位身份证号)" type="text" placeholder="15,18位身份证号" />
+				</dd>
+				<dd class="hint"><em>&nbsp;</em><span></span></dd>
+			</dl>
+			<dl>
+				<dt><span class="f-red">*</span>中文：</dt>
+				<dd>
+					<input class="inpt" gvalid="true;CN;{2,6};(2-6位中文)" type="text" placeholder="2-6位中文" />
+				</dd>
+				<dd class="hint"><em>&nbsp;</em><span></span></dd>
+			</dl>
+			<dl>
+				<dt><span class="f-red">*</span>限制字符串长度：</dt>
+				<dd>
+					<input class="inpt" gvalid="true;len;{20};(20位)" type="text" placeholder="20位" />
+				</dd>
+				<dd class="hint"><em>&nbsp;</em><span></span></dd>
+			</dl>
+			<dl>
+				<dt><span class="f-red">*</span>邮编：</dt>
+				<dd>
+					<input class="inpt" gvalid="true;postcode;'';(邮编)" type="text" placeholder="邮编" />
+				</dd>
+				<dd class="hint"><em>&nbsp;</em><span></span></dd>
+			</dl>
+			<dl>
+				<dt>&nbsp;</dt>
+				<dd>
+					<a href="javascript:;" class="btn">取&nbsp;消</a>
+					<a href="javascript:;" id="gvalidformbtn" class="btn">保&nbsp;存</a>
+				</dd>
+			</dl>
+		</form>
+	</div>
+	<div>
+		<h3>关联校验</h3>
+		<p>
+			1，重复校验，如确认密码；<br/>
+			2，组合校验，联动关系
+		</p>
+		<form class="form-com" id="linkform">
+			<dl>
+				<dt><span class="f-red">*</span>密码：</dt>
+				<dd>
+					<input class="inpt" gvalid="true;number;{6};(6位数字)" gpassword type="text" placeholder="6位数字" />
+				</dd>
+				<dd class="hint"><em>&nbsp;</em><span></span></dd>
+			</dl>
+			<dl>
+				<dt><span class="f-red">*</span>重复密码：</dt>
+				<dd>
+					<input class="inpt" grepeat="gpassword;(重复密码有误)" type="text" placeholder="重复密码" />
+				</dd>
+				<dd class="hint"><em>&nbsp;</em><span></span></dd>
+			</dl>
+			<dl>
+				<dt><span class="f-red">*</span>地址(县非必填)：</dt>
+				<dd>
+					<input class="inpt inpt60" gvalid="true;CN;*;(省份)" type="text" placeholder="省份" />
+					<input class="inpt inpt60" gvalid="true;CN;*;(市区)" type="text" placeholder="市区" />
+					<input class="inpt inpt60" gvalid="false;CN;*;(县)" type="text" placeholder="县" />
+				</dd>
+				<dd class="hint"><em>&nbsp;</em><span></span></dd>
+			</dl>
+			<dl>
+				<dt>&nbsp;</dt>
+				<dd>
+					<a href="javascript:;" class="btn">取&nbsp;消</a>
+					<a href="javascript:;" id="linkformbtn" class="btn">保&nbsp;存</a>
+				</dd>
+			</dl>
+		</form>
+	</div>
+	<div>
+		<h3>表单模块校验</h3>
+		<p>
+			1，通过显示隐藏切换模块
+		</p>
+		<form class="form-com" id="blockform">
+			<dl>
+				<dt><span class="f-red">*</span>中文：</dt>
+				<dd>
+					<input class="inpt" gvalid="true;CN;*;(中文)" type="text" placeholder="中文" />
+				</dd>
+				<dd class="hint"><em>&nbsp;</em><span></span></dd>
+			</dl>
+			<dl>
+				<dt><span class="f-red">*</span>模块选择元素：</dt>
+				<dd>
+					<select id="gtypeSelect" gvalid="true;'';'';(提交类型)">
+						<option value="1">模块1</option>
+						<option value="2">模块2</option>
+					</select>
+				</dd>
+				<dd class="hint"><em>&nbsp;</em><span></span></dd>
+			</dl>
+			<!--模块一不同部分start-->
+			<dl class="blockdl gtype1" style="display: block;">
+				<dt><span class="f-red">*</span>模块一内容：</dt>
+				<dd>
+					<textarea gvalid="true;'';*;(模块一内容)" placeholder="请填写模块一内容"></textarea>
+				</dd>
+				<dd class="hint"><em>&nbsp;</em><span></span></dd>
+			</dl>
+			<!--模块一不同部分end-->
+			<!--模块二不同部分start-->
+			<dl class="blockdl gtype2">
+				<dt><span class="f-red">*</span>模块二内容：</dt>
+				<dd>
+					<textarea gvalid="true;'';*;(模块二内容)" placeholder="请填写模块二内容"></textarea>
+				</dd>
+				<dd class="hint"><em>&nbsp;</em><span></span></dd>
+			</dl>
+			<!--模块二不同部分end-->
+			<dl>
+				<dt>&nbsp;</dt>
+				<dd>
+					<a href="javascript:;" class="btn">取&nbsp;消</a>
+					<a href="javascript:;" id="blockformbtn" class="btn">保&nbsp;存</a>
+				</dd>
+			</dl>
+		</form>
+	</div>
+			
+	<script src="../build/jquery-1.11.3.min.js"></script>
+	<script src="js/formVerify.min.js"></script>
+	<script>
+	//普通校验
+		//绑定校验
+		var gvalidform=$("#gvalidform").formVerify();
+		gvalidform.bindform(); 
+		$("#gvalidformbtn").on("click",function(){
+			//提交校验，校验不通过，返回true停止执行
+			if(gvalidform.subform()){return; }
+ 			$("#gvalidform").submit(); 
+		});
+	
+	//关联校验
+		var linkform=$("#linkform").formVerify();
+		linkform.bindform(); 
+		$("#linkformbtn").on("click",function(){
+			if(linkform.subform()){return; }
+ 			$("#linkformform").submit(); 
+		});
+	
+	//模块校验
+		//表单模块切换
+		$("#gtypeSelect").on("change",function(){
+			$(".blockdl").hide();
+			$(".gtype"+$(this).val()).show();
+		});
+		var blockform=$("#blockform").formVerify();
+		blockform.bindform(); 
+		$("#blockformbtn").on("click",function(){
+			if(blockform.subform()){return; }
+ 			$("#blockform").submit(); 
+		});
+	</script>
+	</body>
+</html>
