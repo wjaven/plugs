@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>上拉刷新下拉加载</title>
+</head>
+<body ng-app="app" ng-controller="appCtrl">	
+	<div load-scroll-dir="demo.nextPage()" load-scroll-disabled="demo.busy" load-scroll-first="demo.firstPage()">
+		<div ng-show="loadScrollFirstFlag">加载中</div>
+		<ul>
+			<li ng-repeat="item in demo.items">
+				姓名：{{item.name}}；年龄：{{item.age}}
+			</li>
+		</ul>
+	</div>
+	<script src="../build/angular.min.js"></script>
+    <script src="js/ngLoadScroll.js"></script>
+    <script>
+    	angular.module("app",["ngLoadScroll"])
+    	.controller("appCtrl",function($scope,listService){
+    		var fakeData=[
+    			{name:"小小",age:11},
+	    		{name:"小小",age:11},
+	    		{name:"小小",age:11},
+	    		{name:"小小",age:11},
+	    		{name:"中中",age:15},
+	    		{name:"小小",age:11},
+	    		{name:"小小",age:11},
+	    		{name:"小小",age:11},
+	    		{name:"小小",age:11},
+	    		{name:"大大",age:22}
+    		],
+    		itemsName='items',
+    		url="http://192.168.199.139/PHPdemo/backend/one/controller/user/QueryUser.php",
+    		request={itemsName:"users"};
+    		$scope.demo = new listService({itemsName:itemsName,url:url,request:request,fakeData:fakeData});
+    	});
+    </script>
+</body>
+</html>

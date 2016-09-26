@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>提示弹窗</title>
+	<style>
+	 	.alert-container{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:99;}
+	 	.alert-container .alert-box{position:absolute;top:50%;left:50%;width:70%;background-color:#fff;border-radius:6px;text-align:center;overflow: hidden;-webkit-transform: translate(-50%,-50%);transform: translate(-50%,-50%);}
+	 	.alert-container .alert-message{padding:10px;color:#333;font-size:14px;}
+	 	.alert-container .alert-confirm{border-top: #ddd 1px solid;font-size:16px;}
+	 	.alert-container .alert-confirm button{padding:10px 0;width: 50%;background-color: #fff;color:#ff0000;border:none;outline:none;}
+	 	.alert-container .alert-confirm button:first-child{border-right:#ddd 1px solid;}
+	 	.alert-container .alert-prompt{}
+	 	.alert-container .alert-prompt input{margin-bottom:10px;padding:0 10px;width: 80%;height:40px;border: #ddd 1px solid;font-size:14px;}		
+	</style>
+</head>
+<body ng-app="app" ng-controller="appCtrl">
+	<button ng-click="alert()">弹窗</button>
+	<button ng-click="alertTime()">限时弹窗</button>
+	<button ng-click="alertConfirm()">确认弹窗</button>
+	<button ng-click="alertPrompt()">输入弹窗</button>
+	<!--提示弹窗指令-->
+	<alert-dir></alert-dir>
+	<script src="../build/angular.min.js"></script>
+    <script src="js/ngAlert.js"></script>
+    <script>
+    	angular.module("app",["ngAlert"])
+    	.controller("appCtrl",function($scope,alertService){
+    		var alert=alertService.alertService();
+      		$scope.alert=function(){
+      			alert.showAlert("提交成功");
+      		}
+      		$scope.alertTime=function(){
+      			alert.showAlert("提交成功",1000);
+      		}
+      		$scope.alertConfirm=function(){
+      			alert.showConfirm("确定删除吗",function(result){
+      				console.log(result)
+      			});
+      		}
+      		$scope.alertPrompt=function(){
+      			alert.showPrompt("请输入信息：","初始信息",function(result){
+      				console.log(result)
+      			});
+      		}
+    	});
+    </script>
+</body>
+</html>
