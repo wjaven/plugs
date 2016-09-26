@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	<title>上拉刷新下拉加载</title>
+	<title>上拉加载下拉刷新</title>
 </head>
 <body ng-app="app" ng-controller="appCtrl">	
 	<div load-scroll-dir="demo.nextPage()" load-scroll-disabled="demo.busy" load-scroll-first="demo.firstPage()">
@@ -19,22 +19,10 @@
     <script>
     	angular.module("app",["ngLoadScroll"])
     	.controller("appCtrl",function($scope,listService){
-    		var fakeData=[
-    			{name:"小小",age:11},
-	    		{name:"小小",age:11},
-	    		{name:"小小",age:11},
-	    		{name:"小小",age:11},
-	    		{name:"中中",age:15},
-	    		{name:"小小",age:11},
-	    		{name:"小小",age:11},
-	    		{name:"小小",age:11},
-	    		{name:"小小",age:11},
-	    		{name:"大大",age:22}
-    		],
-    		itemsName='items',
-    		url="http://192.168.199.139/PHPdemo/backend/one/controller/user/QueryUser.php",
-    		request={itemsName:"users"};
-    		$scope.demo = new listService({itemsName:itemsName,url:url,request:request,fakeData:fakeData});
+    		itemsName='items',//页面渲染的数据列表名称
+    		url="",//$http请求地址
+    		request={itemsName:"users"};//请求参数itemsName是必传的相应数据列表名称
+    		$scope.demo = new listService({itemsName:itemsName,url:url,request:request});
     	});
     </script>
 </body>
