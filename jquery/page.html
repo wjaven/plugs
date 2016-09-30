@@ -59,9 +59,9 @@
 <script src="jquery-1.11.3.min.js"></script>
 <script src="page.min.js"></script>
 <script>
-    var request1={url:"",param:"",pageStyle:"page-center",pageList:list,pageCount:10};
+    var request1={url:"",param:{},pageStyle:"page-center",pageList:list,pageCount:10};
     $("#pagecenter").page(request1);
-    var request2={url:"",param:"",pageStyle:"page-right",pageList:list,pageCount:20};
+    var request2={url:"",param:{},pageStyle:"page-right",pageList:list,pageCount:20};
     $("#pageright").page(request2);
     function list(data){console.log(data);}
 </script>
