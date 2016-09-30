@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分页</title>
+    <style>
+        /*box*/
+        .page-container{
+            margin:20px 0;
+            width:100%;
+            text-align:center;
+            -webkit-user-select:none;
+        }
+        /*page-center*/
+        .page-center{
+            display:inline-block;
+        }
+        .page-center span{
+            margin-right:4px;
+            padding:8px 16px;
+            text-align:center;
+            line-height:14px;
+            border:1px solid #ddd;
+            color:#333;
+            font-size:14px;
+        }
+        .page-center span:hover,
+        .page-center span.active{
+            color:#fff;
+            background-color:#ff0000;
+            cursor:pointer;
+        }
+        .page-center .disable,
+        .page-center .disable:hover{
+            color:#ddd;
+            background-color:#fff;
+            cursor:default;
+        }
+        /*page-right*/
+        .page-right{
+            width:100%;
+            text-align:right;
+            height:40px;
+            line-height:40px;
+            font-size:14px;
+        }
+        .page-right span{
+            color:#ff0000;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<h3>page-center</h3>
+<div id="pagecenter" style="width: 900px;"></div>
+<h3>page-right</h3>
+<div id="pageright" style="width: 900px;"></div>
+
+<script src="../build/jquery-1.11.3.min.js"></script>
+<script src="js/page.js"></script>
+<script>
+    var request1={url:"",param:"",pageStyle:"page-center",pageList:list,pageCount:10};
+    $("#pagecenter").page(request1);
+    var request2={url:"",param:"",pageStyle:"page-right",pageList:list,pageCount:20};
+    $("#pageright").page(request2);
+    function list(data){console.log(data);}
+</script>
+</body>
+</html>

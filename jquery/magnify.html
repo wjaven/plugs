@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+		.magnifybox{
+		    width: 400px;
+		    margin: 10px;
+		}
+		.magnifybox:after{
+			content: "\200B";
+			display: block;
+			height: 0;
+			clear: both;
+		}
+		.magnifyshow{
+		    float:left;
+		    position: relative;
+		    width: 100%;
+		    height: 400px;  
+		}
+		.magnifyimg{
+		    width: 100%;
+		    height:100%
+		}
+		.magnifydrag{
+			display: none;
+			position: absolute;
+			left: 0;
+		    top: 0;
+		    width: 133.3px;
+		    height: 133.3px;   
+		    background: url("js/dot.png") repeat;	    
+		    cursor: move;
+		}
+		.magnifybig{
+			display: none;
+			position: absolute;
+		    left: 105%;
+		    top: 0;
+		    width: 100%;
+		    height: 100%;
+		    overflow: hidden;
+		}
+		.magnifybigimg{
+		    width: 300%;
+		    height: 300%;
+		    margin-left:0;
+		    margin-top: 0;
+		}
+		.magnifyselect{
+			float: left;
+			position: relative;
+			top: 10px;
+			left:0;
+			width: 100%;
+			height:60px;
+		}
+		.magnifylist{
+			position: absolute;
+			top:0;
+			left: 40px;
+		    width:320px;
+		    height:60px;
+		    overflow: hidden;
+		    z-index: 5;
+		}
+		.magnifylist>ul{
+		    position: absolute;
+		    left:0;
+		    margin: 0;
+		    padding:0;
+		    list-style: none;
+		}
+		.magnifylist li{
+		    display: inline;
+		    margin-right:5px;
+		    width: 55px;
+		    height: 55px;
+		    float: left;
+		    cursor: pointer;
+		    border: 2px solid #fff;
+		}
+		
+		.magnifylist img{
+		    display:inline;
+		    width:100%;
+		    height:100%;
+		}
+		.magnifylist li.active{
+		    border-color:#fe0000;
+		}
+		.magnifybtn{
+			position: absolute;
+			top:0;
+			left: 0;
+			width: 100%;
+			height:100%;
+			z-index: 4;
+		}
+		.magnifybtn>a{
+			display: inline-block;
+		    width:30px;
+		    height:100%;
+		    text-align: center;
+		    line-height: 45px;
+		}
+		.magnifybtn .prevbtn{float: left;}
+		.magnifybtn .nextbtn{float: right;}
+		.magnifybtn i{
+			display: inline-block;
+            width:16px;
+            height:24px;
+            background: url("js/hsliderPage.png") no-repeat;
+            vertical-align: middle;
+		}
+		.magnifybtn .prevbtn i{background-position:0 0;}
+        .magnifybtn .prevbtn.active i{background-position: -52px 0;}
+        .magnifybtn .nextbtn i{background-position: -26px 0;}
+        .magnifybtn .nextbtn.active i{background-position: -78px 0;}
+    </style>
+</head>
+<body>
+<div style="width: 540px;">
+    <div class="magnifybox" id="magnifybox">
+        <div class="magnifyshow">
+            <!-- 正常显示的图片-->
+            <img class="magnifyimg" src="">
+            <!-- 滑块-->
+            <div class="magnifydrag"></div>
+            <!-- 放大镜显示的图片 -->
+            <div class="magnifybig"><img class="magnifybigimg" src=""></div>
+        </div>
+        <div class="magnifyselect">
+        	<div class="magnifylist">
+	            <ul>
+	                <li data-img="../images/1.jpg" data-bigimg="../images/1.jpg"><img src="../images/1.jpg"></li>
+	                <li data-img="../images/2.jpg" data-bigimg="../images/2.jpg"><img src="../images/2.jpg"></li>
+	                <li data-img="../images/3.jpg" data-bigimg="../images/3.jpg"><img src="../images/3.jpg"></li>
+	                <li data-img="../images/1.jpg" data-bigimg="../images/1.jpg"><img src="../images/1.jpg"></li>
+	                <li data-img="../images/2.jpg" data-bigimg="../images/2.jpg"><img src="../images/2.jpg"></li>
+	                <li data-img="../images/3.jpg" data-bigimg="../images/3.jpg"><img src="../images/3.jpg"></li>
+	                <li data-img="../images/1.jpg" data-bigimg="../images/1.jpg"><img src="../images/1.jpg"></li>
+	                <li data-img="../images/2.jpg" data-bigimg="../images/2.jpg"><img src="../images/2.jpg"></li>
+	                <li data-img="../images/3.jpg" data-bigimg="../images/3.jpg"><img src="../images/3.jpg"></li>
+	            </ul> 
+	        </div>
+	        <div class="magnifybtn">
+	        	<a class="prevbtn" href="javascript:;"><i></i></a>
+	        	<a class="nextbtn" href="javascript:;"><i></i></a>
+	        </div>
+        </div>
+    </div>
+
+</div>
+<!-- 图片放大镜右侧信息 start-->
+<script src="../build/jquery-1.11.3.min.js"></script>
+<script src="js/magnify.js"></script>
+<script>
+	$("#magnifybox").magnifying();
+</script>
+</body>
+</html>
