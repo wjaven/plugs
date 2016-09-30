@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>运动效果</title>
+		<style>
+			ul {
+				list-style: none;
+			}
+			ul li{
+				width:200px;
+				height:40px;
+				background-color: #fe0000;
+				margin-top: 10px;
+				filter: alpha(opacity=30);
+				opacity:0.3;
+			}
+		</style>
+	</head>
+	<body>
+		<ul id="ul">
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+		<script src="js/move.js"></script>
+		<script>
+			window.onload=function(){
+				var aLi=document.getElementsByTagName("li");
+				for(var i=0;i<aLi.length;i++){
+					aLi[i].timer=null;
+					aLi[i].onmouseover=function(){
+						var that=this;
+						startMove(that,{width:600,height:60},function(){
+							startMove(that,{opacity:100});
+						});
+					}
+					aLi[i].onmouseout=function(){
+						startMove(this,{width:200,height:40,opacity:30});
+					}
+				}
+				
+			}
+		</script>
+	</body>
+	
+</html>
