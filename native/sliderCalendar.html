@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+    <title>日历三级联动</title>
+    <style type="text/css">
+        html,body{width: 100%;height:100%;}
+        body{margin: 0;}
+        .calendarMask{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,0.4);z-index:100;}
+        .calendarBox{position:fixed;left:0;bottom:-200px;width:100%;height:200px;text-align:center;background-color:#fff;z-index:101;transition:bottom .3s;}
+        .calendarBox.active{bottom:0;transition:bottom .3s;}
+        .calendarBox ul{list-style: none;margin: 0;padding: 0;}
+        .calendarBtn{float:left;width:100%;height:40px;line-height:40px;font-size:16px;color:#333;}
+        .calendarBtn>li{float:left;width:50%;}
+        .calendarTitle{float:left;width:100%;height:40px;line-height:40px;font-size:16px;color:#333;}
+        .calendarTitle>li{float:left;width:33.33%;}
+        .calendarGroup{float:left;width:100%;height:120px;line-height:40px;font-size:16px;color:#999;overflow:hidden;}
+        .calendarGroup .selected{color:#ff0000;}
+        .calendarGroup>ul{float:left;width:33.33%;position:relative;top:0;}
+    </style>
+</head>
+<body>
+<input type="text" id="date" readonly />
+<div id="calendarMask" class="calendarMask"></div>
+<div id="calendarBox" class="calendarBox">
+    <ul class="calendarBtn"><li>取消</li><li>确定</li></ul>
+    <ul class="calendarTitle"><li>年</li><li>月</li><li>日</li></ul>
+    <div class="calendarGroup">
+        <ul class="year"></ul>
+        <ul class="month"></ul>
+        <ul class="day"></ul>
+    </div>
+</div>
+
+<script>
+    window.onload=function(){
+        var calendar=new sliderCalendar({
+            id:"calendarBox",
+            inputId:"date"
+        });
+        function sliderCalendar(obj){
+            var calendarMask=document.getElementById("calendarMask"),
+            	calendarBox=document.getElementById(obj.id),
+            	input=document.getElementById(obj.inputId),
+            	calendarBtn=calendarBox.getElementsByTagName("ul")[0].getElementsByTagName("li"),
+            	calendarCancel=calendarBtn[0],
+            	calendarSave=calendarBtn[1],
+            	item=calendarBox.getElementsByTagName("div")[0].getElementsByTagName("ul"),
+            	calendarYear=item[0],
+            	calendarMonth=item[1],
+            	calendarDay=item[2],
+            	year=new Date().getFullYear(),
+            	month=new Date().getMonth(),
+            	day=new Date().getDate(),
+            	dateArr=[year,month+1,day];
+
+            input.onclick=function(){
+                calendarMask.style.display="block";
+                calendarBox.className=calendarBox.className+" active";
+            };
+            calendarCancel.onclick=function(){
+                calendarMask.style.display="none";
+                calendarBox.className=calendarBox.className.replace("active","");
+            };
+            calendarSave.onclick=function(){
+                calendarMask.style.display="none";
+                calendarBox.className=calendarBox.className.replace("active","");
+                input.value=dateArr[0]+"-"+dateArr[1]+"-"+dateArr[2];
+            };
+
+            var yearHtml='';
+            for(var i=0;i<201;i++){yearHtml+='<li>'+(year+i-100)+'</li>';}
+            calendarYear.innerHTML=yearHtml;
+            var ylis=calendarYear.getElementsByTagName("li");
+            calendarYear.style.height='8040px';
+            calendarYear.style.top='-3960px';
+            ylis[100].className="selected";
+
+            var monthHtml='';
+            for(var i=0;i<12;i++){monthHtml+='<li>'+(i+1)+'</li>';}
+            calendarMonth.innerHTML=monthHtml;
+            var mlis=calendarMonth.getElementsByTagName("li");
+            calendarMonth.style.height=mlis.length*40+'px';
+            calendarMonth.style.top=(2-dateArr[1])*40+'px';
+            mlis[dateArr[1]-1].className="selected";
+
+            monthDays();
+            function monthDays(){
+                var newYear=dateArr[0];
+                var newMonth=dateArr[1];
+                if(newMonth>11){newYear=newYear+1;newMonth=0;}
+                var monthDays=(new Date(new Date(newYear,newMonth,1)-3600000*24)).getDate();
+                var dayHtml='';
+                for(var i=0;i<monthDays;i++){dayHtml+='<li>'+(i+1)+'</li>';}
+                calendarDay.innerHTML=dayHtml;
+                var dlis=calendarDay.getElementsByTagName("li");
+                calendarDay.style.height=dlis.length*40+'px';
+                if(dateArr[2]>monthDays){dateArr[2]=monthDays;}
+                calendarDay.style.top=(2-dateArr[2])*40+'px';
+                dlis[dateArr[2]-1].className="selected";
+            }
+
+            var sy=0,my= 0;
+            calendarBox.addEventListener("touchstart",function(event){
+                var ulName=event.target.parentNode.className;
+                if(ulName=="year"||ulName=="month"||ulName=="day"){
+                    sy=event.touches[0].pageY;
+                }
+            },false);
+            calendarBox.addEventListener("touchmove",function(event){
+                event.preventDefault();
+                var ul=event.target.parentNode;
+                var ulName=ul.className;
+                if(ulName=="year"||ulName=="month"||ulName=="day"){
+                    my=event.changedTouches[0].pageY-sy;
+                    var ulTop=parseInt(ul.style.top);
+                    var ulHeight=parseInt(ul.style.height);
+                    if(my>0&&(ulTop+my)>80||my<0&&(ulTop+my)<(40-ulHeight))return;
+                    ul.style.top=ulTop+my+'px';
+                    sy=event.changedTouches[0].pageY;
+                }
+            },false);
+            calendarBox.addEventListener("touchend",function(event){
+                var ul=event.target.parentNode;
+                var ulName=ul.className;
+                if(ulName=="year"||ulName=="month"||ulName=="day"){
+                    var step=Math.round(parseInt(ul.style.top)/40)*40;
+                    var ulHeight=parseInt(ul.style.height);
+                    if(step>40){move(ul,40);}
+                    else if(step<(80-ulHeight)){move(ul,80-ulHeight);}
+                    else{move(ul,step);}
+                }
+            },false);
+            function move(node,newtop){
+                clearTimeout(timeout);
+                var timeout;
+                var go=function(){
+                    var oldTop=parseInt(node.style.top);
+                    var distance=newtop-oldTop;
+                    var speed=distance/8;
+                    speed=speed>0?Math.ceil(speed):Math.floor(speed);
+                    if(distance<0&&newtop<oldTop||distance>0&&newtop>oldTop){
+                        node.style.top=oldTop+speed+'px';
+                        timeout=setTimeout(go,10);
+                    }
+                };
+                go();
+                addActive(node,newtop);
+            }
+            function addActive(node,top){
+                var index=Math.abs(-(top-40)/40);
+                var lis=node.getElementsByTagName("li");
+                for(var i= 0,len=lis.length;i<len;i++){lis[i].className="";}
+                lis[index].className="selected";
+                var ulName=node.className;
+                switch (ulName){
+                    case "year":
+                        dateArr[0]=parseInt(lis[index].innerHTML);
+                        monthDays();
+                        break;
+                    case "month":
+                        dateArr[1]=parseInt(lis[index].innerHTML);
+                        monthDays();
+                        break;
+                    case "day":
+                        dateArr[2]=parseInt(lis[index].innerHTML);
+                        break;
+                }
+
+            }
+        }
+    }
+</script>
+</body>
+</html>
