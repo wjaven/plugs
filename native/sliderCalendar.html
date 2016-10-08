@@ -50,9 +50,10 @@
             	calendarYear=item[0],
             	calendarMonth=item[1],
             	calendarDay=item[2],
-            	year=new Date().getFullYear(),
-            	month=new Date().getMonth(),
-            	day=new Date().getDate(),
+                today=new Date(),
+            	year=today.getFullYear(),
+            	month=today.getMonth(),
+            	day=today.getDate(),
             	dateArr=[year,month+1,day];
 
             input.onclick=function(){
