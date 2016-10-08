@@ -67,7 +67,10 @@
             calendarSave.onclick=function(){
                 calendarMask.style.display="none";
                 calendarBox.className=calendarBox.className.replace("active","");
-                input.value=dateArr[0]+"-"+dateArr[1]+"-"+dateArr[2];
+                var y=dateArr[0],
+					m=dateArr[1]<10?'0'+dateArr[1]:dateArr[1],
+					d=dateArr[2]<10?'0'+dateArr[2]:dateArr[2];
+                input.value=y+"-"+m+"-"+d;
             };
 
             var yearHtml='';
