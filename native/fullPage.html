@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body{margin: 0;width:100%;height:100%;overflow: hidden;}
+        #main,.page1,.page2,.page3,.page4{width:100%;height:100%;}
+        #main{position:absolute;top:0;left:0;}
+        .page1{background-color: #00a4e4}
+        .page2{background-color: #ccff00}
+        .page3{background-color: #0c60ee}
+        .page4{background-color: #00d6b2}
+    </style>
+</head>
+<body>
+    <div id="main">
+        <div class="page page1"></div>
+        <div class="page page2"></div>
+        <div class="page page3"></div>
+        <div class="page page4"></div>
+    </div>
+<script src="js/fullPage.js"></script>
+<script>
+fullPage({id:'#main',class:'.page',step:10,timeout:1000,callback:function(){
+    console.log('callback');
+}})
+</script>
+</body>
+</html>
