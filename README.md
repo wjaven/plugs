@@ -1,7 +1,7 @@
 # My plugs
 > 
 ###native原生js组件:
-> calendar日历；wslider图片轮播；move样式动画；touchSlider触屏轮播图;sliderCalendar触屏三级联动日历；fullPage单页面满屏滚动
+> calendar日历；wslider图片轮播；move样式动画；animate基于时间的可缓入缓出样式动画；touchSlider触屏轮播图;sliderCalendar触屏三级联动日历；fullPage单页面满屏滚动
 ###jquery组件:
 > formVerify表单验证；hsliderPage窗口水平滑动显示；magnify图片放大镜；page分页
 ###angular组件:
