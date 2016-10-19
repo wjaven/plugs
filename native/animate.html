@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .win{position: relative;height:60px;}
+        .box{position: absolute;left:0;opacity:1;width:40.3333px;height:40px;background-color: #00a4e4;}
+    </style>
+</head>
+<body>
+<div class="win">
+    <div class="box box1"></div>
+</div>
+<div class="win">
+    <div class="box box2"></div>
+</div>
+<div class="win">
+    <div class="box box3"></div>
+</div>
+<div class="win">
+    <div class="box box4"></div>
+</div>
+
+<script src="js/animate.js"></script>
+<script>
+    var box1=document.querySelector('.box1');
+    animate({
+        elem:box1,
+        style:{left:500,opacity:20,width:100},
+        type:'linear',
+        time:2000,
+        callback:function(){
+//            move({
+//                elem:box,
+//                style:{left:10,opacity:90},
+//                type:'linear',
+//                time:1000
+//            })
+        }
+    });
+    var box2=document.querySelector('.box2');
+    animate({
+        elem:box2,
+        style:{left:500,opacity:20,width:100},
+        type:'easeIn',
+        time:2000,
+        callback:function(){
+        }
+    });
+    var box3=document.querySelector('.box3');
+    animate({
+        elem:box3,
+        style:{left:500,opacity:20,width:100},
+        type:'easeOut',
+        time:2000,
+        callback:function(){
+        }
+    });
+    var box4=document.querySelector('.box4');
+    animate({
+        elem:box4,
+        style:{left:500,opacity:20,width:100},
+        type:'easeInOut',
+        time:2000,
+        callback:function(){
+        }
+    });
+</script>
+</body>
+</html>
